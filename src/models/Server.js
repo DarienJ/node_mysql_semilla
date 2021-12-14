@@ -55,13 +55,24 @@ class Server {
     });
 
     this.app.post('/api/usuarios/post', (req, res) => {
-      let texto = 'se a echo post';
-      
-      
-      res.json({
-        texto
-      })
-    })
+      const sql = 'INSERT INTO pruebas.usuarios SET ?';
+
+      const usuariosObj = {
+        nombre: req.body.nombre,
+        email: req.body.email,
+        clave: req.body.clave
+      }
+
+      console.log(usuariosObj);
+
+      conecction.query(sql, usuariosObj, err => {
+        if (err) throw err; 
+        let msg = 'Nuevo usuario agregado'
+        res.json({
+          msg
+        });
+      });
+    });
 
     conecction.connect((err) => {
       if (err) throw err;
